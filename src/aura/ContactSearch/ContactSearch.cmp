@@ -1,0 +1,49 @@
+<!--
+ - Created by Adelchi on 24/12/2017.
+ -->
+
+<aura:component description="ContactSearch" controller="ContactSearchCtrl" implements="force:hasSObjectName , force:appHostable, forceCommunity:availableForAllPageTypes" access="global" >
+
+    <aura:attribute name="contactList" type="Object[]"/>
+    <aura:attribute name="contactName" type="String" />
+    <aura:attribute name="birthdate" type="String" />
+    <aura:handler name="change" value="{!v.birthdate}" action="{!c.doInit}"/>
+
+    <lightning:card class="white">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-size_1-of-7">
+            </div>
+            <div class="slds-size_2-of-7">
+                <lightning:helptext content="Start typing to Filter Contacts by Last Name" />
+                <ui:inputText placeholder="Search Name" value="{!v.contactName}" label="Surname" aura:id="contact" keyup="{!c.doInit}"/>
+            </div>
+            <div class="slds-size_1-of-7">
+            </div>
+            <div class="slds-size_2-of-7">
+                <lightning:helptext content="Start typing to Filter Contacts by Birth Date" />
+                <ui:inputDate aura:id="date" label="Birth Date" value="{!v.birthdate}" displayDatePicker="true" keyup="{!c.doInit}"/>
+            </div>
+            <div class="slds-size_1-of-7">
+            </div>
+        </div>
+    </lightning:card>
+    <table >
+        <aura:iteration items="{!v.contactList}" var="cont">
+            <tr>
+                <td>
+                        {!cont.Name}
+                </td>
+                <!--<td>
+                        {!cont.FirstName}
+                </td>
+                <td>
+                        {!cont.LastName}
+                </td>-->
+
+                <td>
+                        {!cont.Birthdate}
+                </td>
+            </tr>
+        </aura:iteration>
+    </table>
+</aura:component>

@@ -1,0 +1,81 @@
+<!--
+ - Created by Adelchi on 20/12/2017.
+ -->
+
+<aura:component description="ContactCreation" controller="Lookup" implements="flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
+
+    <aura:attribute name="newContact" type="Object"/>
+    <aura:attribute name="simpleNewContact" type="Object"/>
+    <aura:attribute name="newContactError" type="String"/>
+    <aura:attribute name="accounts" type="Object[]"/>
+    <aura:attribute Name="selItem2" type="object"  access="public" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <force:recordData aura:id="contactRecordCreator"
+                      layoutType="FULL"
+                      targetRecord="{!v.newContact}"
+                      targetFields="{!v.simpleNewContact}"
+                      targetError="{!v.newContactError}" />
+
+    <div class="slds-page-header slds-p-top_x-small" role="banner">
+        <p class="slds-text-heading_label">Create Contact</p>
+    </div>
+    <!-- Display Lightning Data Service errors -->
+    <aura:if isTrue="{!not(empty(v.newContactError))}">
+        <div class="recordError">
+            <ui:message title="Error" severity="error" closable="true">
+                    {!v.newContactError}
+            </ui:message>
+        </div>
+    </aura:if>
+    <!-- Display the new contact form -->
+
+    <table class="slds-form_inline slds-p-top_x-small" >
+        <tr class="slds-size_12-of-12">
+            <td class="slds-size_2-of-12">
+                <lightning:input aura:id="contactField" name="title" label="Title" value="{!v.simpleNewContact.Title}" />
+            </td>
+            <td class="slds-size_2-of-12">
+                <lightning:input aura:id="contactField" name="firstName" label="First Name" value="{!v.simpleNewContact.FirstName}" required="true"/>
+            </td>
+            <td class="slds-size_2-of-12">
+                <lightning:input aura:id="contactField" name="lastname" label="Last Name" value="{!v.simpleNewContact.LastName}" required="true"/>
+            </td>
+            <td class=" slds-size_6-of-12">
+                <tr>
+                    <td>Account
+                        <lightning:helptext content="Start typing Account Name and hit Spacebar" />
+                        <c:Lookup objectName="Account"
+                           field_API_text="Name"
+                           field_API_val="Id"
+                           limit="4"
+                          field_API_search="Name"
+                          lookupIcon="standard:account"
+                          selItem="{!v.selItem2}"
+                          placeholder="Select Account"/>
+                     </td>
+                 </tr>
+             </td>
+        </tr>
+        <!--<lightning:input aura:id="contactField" name="title" label="Account" value="{!v.simpleNewContact.AccountId}" />-->
+<!--    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-size_1-of-1
+                        slds-small-size_1-of-1
+                        slds-medium-size_1-of-2
+                        slds-large-size_1-of-4 ">-->
+
+<!--
+            <aura:if isTrue="{! not(empty(v.selItem2)) }">
+                <br />
+                This is Parent Lightning component <br />
+                Item Selected : <br />
+                ID - {#v.selItem2.val} <br />
+                Text - {#v.selItem2.text}<br />
+                Object - {#v.selItem2.objName}
+            </aura:if>-->
+       <!-- </div>-->
+    </table>
+    <lightning:button label="Save contact" onclick="{!c.handleSaveContact}" variant="brand" class="slds-m-top_medium"/>
+</aura:component>
