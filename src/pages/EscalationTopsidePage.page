@@ -1,0 +1,23 @@
+<!--
+ - Created by Adelchi on 12/01/2018.
+ -->
+
+<apex:page id="EscalationTopsidePage" standardStylesheets="false" showHeader="false" applyHtmlTag="False" standardController="Consultation__c" extensions="EscalationTopsideEmailSender" action="{!sendIt}">
+    <script type="text/javascript">
+    var gotoClassicView = function() {
+           location.href = "/0012800000NqwPy";
+       };
+    var gotoLightningView = function() {
+        sforce.one.navigateToSObject("{!Id}");
+    };
+</script>
+    <head>
+        <apex:slds />
+    </head>
+    <body class="slds-scope">
+    <apex:form >
+                <button  class="slds-button_success" style="border-radius: 5px" title="Email Sent"  onclick="gotoLightningView()">OK</button>
+    </apex:form>
+    </body>
+
+</apex:page>

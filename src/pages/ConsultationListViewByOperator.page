@@ -1,0 +1,13 @@
+<!--
+ - Created by Adelchi on 29/12/2017.
+ -->
+
+<apex:page id="ConsultationListViewByOperator" controller="ConsultationListViewByOperatorCtrl" >
+
+    <apex:form>
+        <apex:dataList value="{!consultList}" var="consult">
+            <!--<apex:outputLink value="{!URLFOR($Action.Account.Edit, consult.Id)}">-->{!consult.Name}
+            <!--</apex:outputLink>-->
+        </apex:dataList>
+    </apex:form>
+</apex:page>

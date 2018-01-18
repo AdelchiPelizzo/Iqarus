@@ -4,20 +4,10 @@
 ({
     doInit: function(component, event, helper) {
         // Prepare a new record from template
-        /*   var action = component.get("c.getAccounts");
-          action.setCallback(this, function(response) {
-              var state = response.getState();
-              if(state === "SUCCESS") {
-                  component.set("v.accounts", response.getReturnValue());
-              } else {
-                  console.log('Problem getting account, response state: ' + state);
-              }
-          });
-          $A.enqueueAction(action);
-         component.set("accounts", )*/
         component.find("contactRecordCreator").getNewRecord(
             "Contact", // sObject type (objectApiName)
-            "0120E0000005EJ0QAM", // recordTypeId
+            //"0120E0000005EJ0QAM", // recordTypeId
+            null,
             false,     // skip cache?
             $A.getCallback(function() {
                 var rec = component.get("v.newContact");
@@ -45,54 +35,45 @@
             "to best target appropriate health promotion campaigns. By agreeing consent, you give permission for use of the\n" +
             "electronic medical record system and disclosure of data for the said purposes.\n" +
             "If you have any questions about your medical record please ask the medic. ");
-        /*if(helper.validateContactForm(component)) {*/
+        if(check) {
+            component.set("v.myBool", "False");
             component.set("v.simpleNewContact.AccountId", component.get("v.selItem2.val"));
             component.find("contactRecordCreator").saveRecord(function(saveResult) {
+                var newId = saveResult.recordId;
+                console.log('save result state>>'+JSON.stringify(saveResult.error));
                 if (saveResult.state === "SUCCESS" || saveResult.state === "DRAFT") {
                     // record is saved successfully
                     var resultsToast = $A.get("e.force:showToast");
+
                     resultsToast.setParams({
                         "title": "Saved",
                         "message": "The record was saved."
                     });
                     resultsToast.fire();
+                    var urlEvent = $A.get("e.force:navigateToSObject");
+                    urlEvent.setParams({
+                        "recordId" : newId,
+                        "isredirect": "true"
+                    })
+                    urlEvent.fire();
 
                 } else if (saveResult.state === "INCOMPLETE") {
                     // handle the incomplete state
                     console.log("User is offline, device doesn't support drafts.");
                 } else if (saveResult.state === "ERROR") {
                     // handle the error state
-                    console.log('Problem saving contact, error: ' + JSON.stringify(saveResult.error));
+                    var resultsToast = $A.get("e.force:showToast");
+                    resultsToast.setParams({
+                        "title": "Saving Error",
+                        "message": 'Contact cannot be created if it is Not GDPR Compliant'
+                    });
+                    resultsToast.fire();
                 } else {
                     console.log('Unknown problem, state: ' + saveResult.state + ', error: ' + JSON.stringify(saveResult.error));
                 }
             });
-
+            helper.redir();
+        }
     }
 
-/*    save : function(component, event, helper) {
-        var gdpr = window.confirm("You MUST get acceptance from Patient to store  personal data.");
-        var action = component.get("c.saveContact");
-        action.setParams({ "bool" : gdpr});
-        $A.enqueueAction(action);
-        if (state === "SUCCESS") {
-            component.set("v.newContact", response.getReturnValue());
-        }else{
-            var toastEvent = $A.get("e.force:showToast");
-            if (state === 'SUCCESS'){
-                toastEvent.setParams({
-                    "title": "Success!",
-                    "message": " Your contacts have been loaded successfully."
-                });
-            }
-            else {
-                toastEvent.setParams({
-                    "title": "Error!",
-                    "message": " Something has gone wrong."
-                });
-            }
-            toastEvent.fire();
-
-        }
-    }*/
 })

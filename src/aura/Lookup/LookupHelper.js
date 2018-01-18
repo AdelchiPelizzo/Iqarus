@@ -48,7 +48,6 @@
                 this.handleResponse(a,component,helper);
             });
 
-            alert("server call!"+searchText);
             component.set("v.last_SearchText",searchText.trim());
             console.log('Server call made');
             $A.enqueueAction(action);

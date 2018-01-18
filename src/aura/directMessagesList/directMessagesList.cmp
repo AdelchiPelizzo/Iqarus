@@ -1,0 +1,21 @@
+<!--
+ - Created by Adelchi on 03/01/2018.
+ -->
+
+<aura:component description="directMessagesList" controller="DirectMessagesListCtrl" implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="messageList" type="String[]"/>
+    <aura:attribute name="messageMap" type="Map"/>
+    <aura:attribute name="messageMapValue" type="String"/>
+
+
+    <aura:iteration var="msg" items="{!v.messageList}">
+            {!msg}<br/>
+    </aura:iteration>
+<!--    <aura:iteration var="msg" items="{!v.messageMapValue}">
+            {!msg}
+    </aura:iteration>-->
+        {!v.messageMapValue}
+</aura:component>

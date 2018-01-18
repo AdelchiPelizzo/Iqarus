@@ -2,14 +2,18 @@
  - Created by Adelchi on 24/12/2017.
  -->
 
-<aura:component description="ContactSearch" controller="ContactSearchCtrl" implements="force:hasSObjectName , force:appHostable, forceCommunity:availableForAllPageTypes" access="global" >
+<aura:component description="ContactSearch" controller="ContactSearchCtrl" implements="forceCommunity:searchInterface, flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
 
-    <aura:attribute name="contactList" type="Object[]"/>
+    <aura:attribute name="contactList" type="Contact[]"/>
     <aura:attribute name="contactName" type="String" />
     <aura:attribute name="birthdate" type="String" />
     <aura:handler name="change" value="{!v.birthdate}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="String" />
 
-    <lightning:card class="white">
+
+
+
+    <!--<lightning:card>-->
         <div class="slds-grid slds-wrap">
             <div class="slds-size_1-of-7">
             </div>
@@ -26,12 +30,12 @@
             <div class="slds-size_1-of-7">
             </div>
         </div>
-    </lightning:card>
+    <!--</lightning:card>-->
     <table >
         <aura:iteration items="{!v.contactList}" var="cont">
             <tr>
                 <td>
-                        {!cont.Name}
+                    <a onclick="{!c.handleClick}" id="{!cont.Id}">  {!cont.Name}</a>
                 </td>
                 <!--<td>
                         {!cont.FirstName}
@@ -41,7 +45,7 @@
                 </td>-->
 
                 <td>
-                        {!cont.Birthdate}
+                    <a onclick="{!c.handleClick}" id="{!cont.Id}">  {!cont.Birthdate} </a>
                 </td>
             </tr>
         </aura:iteration>

@@ -10,23 +10,26 @@
         console.log(action);
         action.setCallback(this, function(response) {
             var state = response.getState();
+            var toastEvent = $A.get("e.force:showToast");
             if (state === "SUCCESS") {
                 component.set("v.contactList", response.getReturnValue());
+
             }
-            /*var toastEvent = $A.get("e.force:showToast");
-            if (state === 'SUCCESS'){
-                toastEvent.setParams({
-                    "title": "Success!",
-                    "message": " Your contacts have been loaded successfully."
-                });
-            }
-            else {
+            if (state === 'ERROR'){
+                var errors = response.getError();
+                if(errors){
+                    toastEvent.setParams({
+                        "title": "Errors!",
+                        "message": errors[0].message
+                    });
+                }
+            } else {
                 toastEvent.setParams({
                     "title": "Error!",
                     "message": " Something has gone wrong."
                 });
             }
-            toastEvent.fire();*/
+                toastEvent.fire();
         });
         $A.enqueueAction(action);
     },

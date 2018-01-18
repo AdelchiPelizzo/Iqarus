@@ -1,0 +1,37 @@
+<!--
+ - Created by Adelchi on 18/01/2018.
+ -->
+
+<apex:page id="ConsultationAlertLocked"  standardController="Consultation__c" rendered="{! $User.UIThemeDisplayed == 'Theme3' }">
+    <apex:variable var="c" value="{!Consultation__c}" />
+    <script>
+        if('{!c.Status__c}'=='Closed')
+        {
+            alert("THIS RECORD HAS BEEN CLOSED - NO LONGER EDITABLE")
+        }
+        else if('{!c.Status__c}'=="Closed with Follow up required")
+        {
+            alert("THIS RECORD HAS BEEN CLOSED - NO LONGER EDITABLE")
+        }
+        else if('{!c.Status__c}'=="Submitted for Topside supervision Locked")
+        {
+            alert("THIS RECORD HAS BEEN SUBMITTED FOR REVIEW - ONLY PARTIALLY EDITABLE")
+        }
+        else if('{!c.Status__c}'=="Topside Reviewed Locked")
+        {
+            alert("THIS RECORD HAS BEEN REVIEWED - ONLY PARTIALLY EDITABLE")
+        }
+    </script>
+    <div Style="color:red; text-align:center">
+        <apex:outputText Style="color:red; text-align:center" rendered="{!IF(c.Status__c=='Closed',true,false)}" value="THIS RECORD HAS BEEN CLOSED - NO LONGER EDITABLE"/>
+    </div>
+    <div Style="color:red; text-align:center">
+        <apex:outputText Style="color:red; text-align:center" rendered="{!IF(c.Status__c=='Closed with Follow up required',true,false)}" value="THIS RECORD HAS BEEN CLOSED - NO LONGER EDITABLE"/>
+    </div>
+    <div Style="color:red; text-align:center">
+        <apex:outputText Style="color:red; text-align:center" rendered="{!IF(c.Status__c=='Submitted for Topside supervision Locked',true,false)}" value="THIS RECORD HAS BEEN SUBMITTED FOR REVIEW - ONLY PARTIALLY EDITABLE"/>
+    </div>
+    <div Style="color:red; text-align:center">
+        <apex:outputText Style="color:red; text-align:center" rendered="{!IF(c.Status__c=='Topside Reviewed Locked',true,false)}" value="THIS RECORD HAS BEEN REVIEWED - ONLY PARTIALLY EDITABLE"/>
+    </div>
+</apex:page>

@@ -1,0 +1,9 @@
+<!--
+ - Created by Adelchi on 04/01/2018.
+ -->
+
+<apex:page id="DisplayDirectMessages" controller="DirectMessagesListCtrl" >
+    <apex:dataTable var="msg" value="{!getDirectMessages}">
+        {!msg.body}
+    </apex:dataTable>
+</apex:page>

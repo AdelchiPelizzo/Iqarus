@@ -1,0 +1,86 @@
+<!--
+ - Created by Adelchi on 03/01/2018.
+ -->
+
+<aura:component controller="ConsultationListViewByOperatorCtrl" description="ConsultationListViewByOper" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="Consultation" type="Consultation__c[]" access="global" />
+    <aura:attribute type="Boolean" name="sortAsc" />
+    <aura:attribute type="String" name="sortField" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="siteName" type="String" />
+    <div class="slds-grid slds-wrap  slds-m-around--xx-large">
+        <div class="slds-size_1-of-7">
+        </div>
+        <div class="slds-size_2-of-7">
+            <lightning:helptext content="Start typing to Filter Consultations by Operator Site" />
+            <ui:inputText placeholder="Search Site" value="{!v.siteName}" label="Site Name" aura:id="siteName" keyup="{!c.doInit}" />
+        </div>
+        <div class="slds-size_1-of-7">
+        </div>
+        <div class="slds-size_2-of-7">
+            <!--<lightning:helptext content="Start typing to Filter Contacts by Birth Date" />
+            <ui:inputDate aura:id="date" label="Birth Date" value="{!v.birthdate}" displayDatePicker="true" keyup="{!c.doInit}"/>-->
+        </div>
+        <div class="slds-size_1-of-7">
+        </div>
+    </div>
+        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--striped">
+            <thead>
+            <tr class="slds-text-title_caps">
+                <th scope="col" class="slds-text-title--caps">
+                    <div class="slds-truncate"  title="Name">Ref.#</div>
+                </th>
+                <th scope="col">
+                    <div  class="slds-truncate" title="Name">Contact</div>
+                </th>
+                <th scope="col" onclick="{!c.sortByOper}">
+                    <div class="slds-truncate" title="Operator">Site</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Outcome">Outcome</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate"  title="Status">Status</div>
+                </th>
+                <!--<th scope="col" onclick="{!c.sortByFUp}" >
+                    <div class="slds-truncate" title="Follow Up">Follow-Up?</div>
+                </th>-->
+                <th scope="col" >
+                    <div class="slds-truncate" title="Stage">Situation</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody >
+            <aura:iteration var="consult" items="{!v.Consultation}">
+                <a onclick="{!c.navigate}" data-value="{!consult.Id}">
+                    <tr >
+                        <td data-label="Reference #" scope="row" >
+                            <div class="slds-truncate" title="Reference #" >{! consult.Name }</div>
+                        </td>
+                        <td data-label="Contact" scope="row" >
+                            <div class="slds-truncate" title="Client" >{! consult.Client__r.Name }</div>
+                        </td>
+                        <td data-label="Site" scope="row" >
+                            <div class="slds-truncate" title="Site" >{! consult.Site__r.Name }</div>
+                        </td>
+                        <td data-label="Outcome" scope="row" >
+                            <div class="slds-truncate" title="Outcome">{! consult.Outcome__c }</div>
+                        </td>
+                        <td data-label="Status" scope="row">
+                            <div class="slds-truncate" title="Status">{! consult.Status__c }</div>
+                        </td>
+                        <!--<td data-label="Follow up?" scope="row" >
+                            <div class="slds-truncate" title="Status">{! consult.Follow_up_required__c }</div>
+                        </td>-->
+                        <td data-label="Situation"  scope="row">
+                            <div class="slds-size_2-of-12">
+                                <p  class="slds-truncate" title="{! consult.Situation__c }">{! consult.Situation__c }</p>
+                            </div>
+                        </td>
+                    </tr>
+               </a>
+            </aura:iteration>
+            </tbody>
+        </table>
+</aura:component>
