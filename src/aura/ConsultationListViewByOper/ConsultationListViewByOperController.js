@@ -4,9 +4,12 @@
 ({
     doInit: function(component, event, helper){
         console.log("start built");
-        var searchTxt = component.get("v.siteName")
-        var action = component.get("c.searchForConsultationsBySite");
-        action.setParams({searchText : searchTxt});
+        var searchBySite = component.get("v.siteName");
+        var searchByStatus = component.get("v.status");
+        var searchByDate = component.get("v.CreatedDate");
+        console.log(searchByDate);
+        var action = component.get("c.searchForConsultations");
+        action.setParams({searchSite : searchBySite, searchStatus: searchByStatus, searchDate: searchByDate});
         action.setCallback(this, function(response) {
             var state = response.getState();
             console.log(state);
