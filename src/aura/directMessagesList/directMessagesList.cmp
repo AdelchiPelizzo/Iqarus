@@ -2,20 +2,99 @@
  - Created by Adelchi on 03/01/2018.
  -->
 
-<aura:component description="directMessagesList" controller="DirectMessagesListCtrl" implements="forceCommunity:availableForAllPageTypes" access="global">
+<aura:component description="directMessagesList" controller="DirectMessagesListCtrl" implements="forceCommunity:availableForAllPageTypes, flexipage:availableForAllPageTypes" access="global">
+    <style>
+        .header {
+            background-color: coral;
+            color: white;
+            padding: 0.3em;
 
+        }
+        /* Tooltip container */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+            /* If you want dots under the hoverable text */
+            /*overflow:hidden;*/
+        }
+
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+            display: inline-block;
+            word-wrap: break-word;
+            text-align: justify !important;
+            height: 150px;
+            width: 420px;
+            border:1px solid black;
+            position: absolute;
+            top: 50%;
+            right: 90%;
+            visibility: hidden;
+            background-color: coral;
+            color: #fff;
+            z-index: 1;
+            /*text-justify: inter-word;
+            word-wrap: break-word;
+             padding: 5px;
+
+             Position the tooltip
+             bottom: 100%;
+             left: 50%;
+             margin-left: -60px;*/
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-
+    <aura:attribute name="messageSingle" type="String[]"/>
     <aura:attribute name="messageList" type="String[]"/>
     <aura:attribute name="messageMap" type="Map"/>
     <aura:attribute name="messageMapValue" type="String"/>
+    <aura:attribute name="lstKey" type="List"/>
+    <aura:attribute name="fullMap" type="Map"/>
 
+    <table class="slds-table slds-table--bordered slds-m-top--xx-large slds-size_12-of-12" role="grid">
+            <thead>
+            <tr class="slds-text-heading_medium slds-size_12-of-12" >
+                <th scope="col" class=" slds-size_4-of-12" >
+                    <div class="slds-truncate header"  title="Subject" >Subject</div>
+                </th>
+                <th scope="col" class=" slds-size_8-of-12" >
+                    <div class="slds-truncate header"  title="Body" >Body</div>
+                </th>
+            </tr>
+            </thead>
+        <tbody >
+        <aura:iteration var="msg" items="{!v.messageSingle}">
+            <tr>
+                <div title="{!msg.Subject}">
+                    <td >{!msg.Subject}</td>
+                </div>
+                <div title="{!msg.Body}">
+                    <td >{!msg.Body}</td>
+                </div>
+                <!--
+                <td data-label="Subject" scope="row" class="slds-size_4-of-12" role="gridcell">
+                    <div ></div>
+                </td>
+                <td data-label="Body" scope="row" class="slds-size_8-of-12" role="gridcell" >
+                    <div class="tooltip"  >{!msg.Body}
+                        <div class="tooltiptext" ></div>
+                    </div>
+                </td>-->
+            </tr>
+        </aura:iteration>
+        </tbody>
+    </table>
 
-    <aura:iteration var="msg" items="{!v.messageList}">
-            {!msg}<br/>
-    </aura:iteration>
-<!--    <aura:iteration var="msg" items="{!v.messageMapValue}">
-            {!msg}
+    <!--  <ui:button label="Iterate Map" press="{!c.fetchMapCtrl}"/>
+
+    Iterate the mapEntry Component.
+    <aura:iteration items="{!v.lstKey}" var="key" >
+        <c:mapMessagesCmp map="{!v.fullMap}" key="{!key}"/>
     </aura:iteration>-->
-        {!v.messageMapValue}
 </aura:component>

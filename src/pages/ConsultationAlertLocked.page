@@ -2,7 +2,7 @@
  - Created by Adelchi on 18/01/2018.
  -->
 
-<apex:page id="ConsultationAlertLocked"  standardController="Consultation__c" rendered="{! $User.UIThemeDisplayed == 'Theme3' }">
+<apex:page id="ConsultationAlertLocked"  standardController="Consultation__c" rendered="{! $User.UITheme == 'Theme3' }">
     <apex:variable var="c" value="{!Consultation__c}" />
     <script>
         if('{!c.Status__c}'=='Closed')

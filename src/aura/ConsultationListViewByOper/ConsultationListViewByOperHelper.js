@@ -15,6 +15,28 @@
         component.set("v.sortAsc", sortAsc);
         component.set("v.sortField", field);
         component.set("v.Consultation", records);
-    }
+    },
+
+    loadOptions: function(component, event, helper){
+        var action1 = component.get("c.getPicklistValues");
+        action1.setCallback(this, function(response) {
+            var state = response.getState();
+            /*var errors = response.getError();
+            if(errors.length>0){console.log('error>>'+ errors[0].message)}*/
+            if (state === "SUCCESS") {
+                component.set("v.statusList",response.getReturnValue());
+                /* var list = '';
+                 var optionList = response.getReturnValue();
+                 console.log('optionlist>>'+optionList);
+                 for(var i=0; optionList.length; i++){
+                     console.log('>>>> '+JSON.stringify(optionList[i]))
+                     list.add(JSON.stringify(optionList[i]));
+                 }
+
+                 component.set("v.statusList", list);*/
+            }
+        });
+        $A.enqueueAction(action1);
+    },
 
 })

@@ -1,0 +1,12 @@
+<!--
+ - Created by Adelchi on 17/02/2018.
+ -->
+
+<aura:component description="mapMessagesCmp">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="map" type="map"/>
+    <aura:attribute name="key" type="string"/>
+    <aura:attribute name="value" type="string"/>
+
+    <p>{!v.key} --- {!v.value}</p>
+</aura:component>

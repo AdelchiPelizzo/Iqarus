@@ -2,7 +2,7 @@
  - Created by Adelchi on 03/01/2018.
  -->
 
-<aura:component controller="ConsultationListViewByOperatorCtrl" description="ConsultationListViewByOper" implements="forceCommunity:availableForAllPageTypes" access="global">
+<aura:component controller="ConsultationListViewByOperatorCtrl" description="ConsultationListViewByOper" implements="forceCommunity:availableForAllPageTypes, flexipage:availableForAllPageTypes" access="global">
     <aura:attribute name="Consultation" type="Consultation__c[]" access="global" />
     <aura:attribute type="Boolean" name="sortAsc" />
     <aura:attribute type="String" name="sortField" />
@@ -12,97 +12,96 @@
     <aura:attribute name="statusList" type="String[]" />
     <aura:attribute name="CreatedDate" type="String" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <style>
+        .truncate {
+            width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .header {
+            background-color: coral;
+            color: white;
+            padding: 0.3em;
+
+        }
+    </style>
     <!--<aura:handler name="change" value="{!v.status}" action="{!c.doInit}" />-->
-    <div class="slds-form-element">
+    <!--<div class="slds-form-element">
         <label class="slds-form-element__label" for="textarea-id-01">Filter criteria</label>
         <div class="slds-form-element__control">
             <textarea id="textarea-id-01" class="slds-textarea">
                 <ui:outputText value="{!'Created Date:  '+ v.CreatedDate +' Site Name:  '+ v.siteName+' Status:  '+ v.status}" />
             </textarea>
         </div>
-    </div>
-    <div >
-
-    </div>
-    <div class="slds-grid slds-wrap  slds-m-around--xx-large">
+    </div>-->
+    <div class="slds-grid slds-m-around--xx-large">
         <div class="slds-size_1-of-7">
         </div>
         <div class="slds-size_2-of-7 slds-col_padded-around-large">
             <lightning:helptext content="Start typing to Filter Consultations by Site Name" />
             <ui:inputText placeholder="Search By Site" value="{!v.siteName}" label="Site Name" aura:id="siteName" keyup="{!c.doInit}" />
         </div>
-        <div class="slds-size_1-of-7 slds-col_padded-around-large">
-            <lightning:helptext content="Start typing to Filter Consultations by Status" />
-            <ui:inputText placeholder="Search By Status" value="{!v.status}" label="Status" aura:id="status" keyup="{!c.doInit}" />
-        </div>
-
-
-       <div class="slds-size_1-of-7 slds-col_padded-around-large">
-        <!--<lightning:select name="select" label="Select a Status" messageWhenValueMissing="Did you forget to select a Status?">
-            <option value="">-&#45;&#45;None-&#45;&#45;</option>
-            <aura:iteration items="{!v.statusList}" var="stat"  label="Status" aura:id="status" >
-                <option value="{!stat}" text="{!stat}" change="{!c.doInit}"></option>
+        <div class="slds-size_1-of-7 slds-m-top--xx-large">
+        <lightning:select aura:id="statusOption" name="select" label="Select a Status" onchange="{!c.doInit}" value="{!v.status}">
+            <option value=""></option>
+            <aura:iteration items="{!v.statusList}" var="stat" >
+                <option value="{!stat}" text="{!stat}" ></option>
             </aura:iteration>
-        </lightning:select>-->
-    </div>
-
-
+        </lightning:select>
+        </div>
         <div class="slds-size_2-of-7 slds-col_padded-around-large">
-            <lightning:helptext content="Select Consultations Created Date" />
+            <lightning:helptext content="Select Only Consultations FROM Created Date" />
             <ui:inputDate aura:id="date" label="Date" value="{!v.CreatedDate}" displayDatePicker="true" keyup="{!c.doInit}"/>
         </div>
         <div class="slds-size_1-of-7">
         </div>
     </div>
-    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--striped">
+    <table class="slds-table slds-table--bordered slds-size_12-of-12" role="grid" >
         <thead>
-        <tr class="slds-text-title_caps">
-            <th scope="col" class="slds-text-title--caps">
-                <div class="slds-truncate"  title="Name">Ref.#</div>
+        <tr class="slds-text-heading_medium slds-size_12-of-12">
+            <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-size_1-of-12" aria-label="Ref#"  >
+                <div class="slds-truncate header"  title="Name">Ref.#</div>
             </th>
-            <th scope="col">
-                <div  class="slds-truncate" title="Name">Contact</div>
+            <th scope="col" class="slds-is-sortable slds-is-resizable slds-size_2-of-12">
+                <div  class="slds-truncate header" title="Name">Contact</div>
             </th>
-            <th scope="col" onclick="{!c.sortByOper}">
-                <div class="slds-truncate" title="Operator">Site</div>
+            <th scope="col" onclick="{!c.sortByOper}" class="slds-is-sortable slds-is-resizable slds-size_2-of-12">
+                <div class="slds-truncate header" title="Operator">Site</div>
             </th>
-            <th scope="col">
-                <div class="slds-truncate" title="Outcome">Outcome</div>
+            <th scope="col" class="slds-is-sortable slds-is-resizable slds-size_2-of-12">
+                <div class="slds-truncate header" title="Outcome">Outcome</div>
             </th>
-            <th scope="col">
-                <div class="slds-truncate"  title="Status">Status</div>
+            <th scope="col" class="slds-is-sortable slds-is-resizable slds-size_2-of-12">
+                <div class="slds-truncate header"  title="Status">Status</div>
             </th>
-            <th scope="col" >
-                <div class="slds-truncate" title="Stage">Situation</div>
+            <th scope="col" class="slds-is-sortable slds-is-resizable slds-size_3-of-12" >
+                <div class="slds-truncate header" title="Stage">Situation</div>
             </th>
         </tr>
         </thead>
         <tbody >
         <aura:iteration var="consult" items="{!v.Consultation}">
-            <a onclick="{!c.navigate}" data-value="{!consult.Id}">
-                <tr >
-                    <td data-label="Reference #" scope="row" >
-                        <div class="slds-truncate" title="Reference #" >{! consult.Name }</div>
+            <tr class="slds-size_12-of-12">
+                    <td data-label="Reference #"  class="slds-size_2-of-12" role="gridcell">
+                        <a onclick="{!c.navigate}" data-value="{!consult.Id}"><div class="slds-truncate" title="Reference #" >{! consult.Name }</div></a>
                     </td>
-                    <td data-label="Contact" scope="row" >
-                        <div class="slds-truncate" title="Client" >{! consult.Client__r.Name }</div>
+                    <td data-label="Contact"  class="slds-size_2-of-12" role="gridcell">
+                        <div class="truncate" title="{! consult.Client__r.Name }" >{! consult.Client__r.Name }</div>
                     </td>
-                    <td data-label="Site" scope="row" >
-                        <div class="slds-truncate" title="Site" >{! consult.Site__r.Name }</div>
+                    <td data-label="Site"  class="slds-size_2-of-12" role="gridcell">
+                        <div class="truncate" title="{! consult.Site__r.Name }" >{! consult.Site__r.Name }</div>
                     </td>
-                    <td data-label="Outcome" scope="row" >
-                        <div class="slds-truncate" title="Outcome">{! consult.Outcome__c }</div>
+                    <td data-label="Outcome"  class="slds-size_2-of-12" role="gridcell">
+                        <div class="slds-truncate" title="{! consult.Outcome__c }">{! consult.Outcome__c }</div>
                     </td>
-                    <td data-label="Status" scope="row">
-                        <div class="slds-truncate" title="Status">{! consult.Status__c }</div>
+                    <td data-label="Status" class="slds-size_2-of-12" role="gridcell">
+                        <div class="truncate" title="{! consult.Status__c }">{! consult.Status__c }</div>
                     </td>
-                    <td data-label="Situation"  scope="row">
-                        <div class="slds-size_1-of-12">
-                            <p  class="slds-truncate" title="{! consult.Situation__c }">{! consult.Situation__c }</p>
-                        </div>
+                    <td data-label="Situation" class="slds-size_2-of-12" role="gridcell">
+                        <div class="truncate"  title="{! consult.Situation__c }">{! consult.Situation__c } </div>
                     </td>
                 </tr>
-            </a>
         </aura:iteration>
         </tbody>
     </table>

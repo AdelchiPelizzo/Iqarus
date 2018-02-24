@@ -1,0 +1,9 @@
+<!--
+ - Created by Adelchi on 19/02/2018.
+ -->
+
+<apex:page id="testCSS" renderAs="pdf" standardStylesheets="false" >
+        <apex:stylesheet value="{!URLFOR($Resource.BootStrap, 'css/bootstrap.min.css')}"/>
+    <div class="border border-warning font-weight-bold">Can't apply css styles when renderAs="PDF"</div>
+    <p class="text-uppercase">This is your new PDF</p>
+</apex:page>

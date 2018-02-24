@@ -3,18 +3,33 @@
  -->
 
 <aura:component description="ContactSearch" controller="ContactSearchCtrl" implements="forceCommunity:searchInterface, flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
+    <style>
+        .header {
+            background-color: coral;
+            color: white;
+            padding: 0.3em;
+
+        }
+    </style>
+
 
     <aura:attribute name="contactList" type="Contact[]"/>
     <aura:attribute name="contactName" type="String" />
     <aura:attribute name="birthdate" type="String" />
+    <aura:attribute name="converted-birthdate" type="String" />
     <aura:handler name="change" value="{!v.birthdate}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:attribute name="recordId" type="String" />
 
-
-
-
-    <!--<lightning:card>-->
-        <div class="slds-grid slds-wrap">
+    <!--<div class="slds-form-element">
+        <label class="slds-form-element__label" for="textarea-id-01">Filter criteria</label>
+        <div class="slds-form-element__control">
+            <textarea id="textarea-id-01" class="slds-textarea">
+                <ui:outputText value="{!'Birth Date:  '+ v.birthdate +' Name:  '+ v.contactName}" />
+            </textarea>
+        </div>
+    </div>-->
+        <div class="slds-grid slds-wrap slds-m-around--xx-large">
             <div class="slds-size_1-of-7">
             </div>
             <div class="slds-size_2-of-7">
@@ -25,29 +40,51 @@
             </div>
             <div class="slds-size_2-of-7">
                 <lightning:helptext content="Start typing to Filter Contacts by Birth Date" />
-                <ui:inputDate aura:id="date" label="Birth Date" value="{!v.birthdate}" displayDatePicker="true" keyup="{!c.doInit}"/>
+                <ui:inputDate aura:id="date" label="Birthday" value="{!v.birthdate}" displayDatePicker="true" />
             </div>
             <div class="slds-size_1-of-7">
             </div>
         </div>
-    <!--</lightning:card>-->
-    <table >
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+            <thead >
+            <tr class="slds-text-heading_medium " >
+                <th scope="col" >
+                    <div class="slds-truncate header"  title="Name">Name</div>
+                </th>
+                <th scope="col">
+                    <div  class="slds-truncate header" title="Name">Date of Birth</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate header" title="Outcome">Occupation Title</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate header"  title="Status">Job Title</div>
+                </th>
+                <th scope="col" >
+                    <div class="slds-truncate header" title="Stage">Company</div>
+                </th>
+            </tr>
+            </thead>
+        <tbody >
         <aura:iteration items="{!v.contactList}" var="cont">
-            <tr>
-                <td>
-                    <a onclick="{!c.handleClick}" id="{!cont.Id}">  {!cont.Name}</a>
+            <tr >
+                <td data-label="Name" scope="row" >
+                    <a onclick="{!c.navigate}" data-value="{!cont.Id}"><div class="slds-truncate" >  {!cont.Name} </div></a>
                 </td>
-                <!--<td>
-                        {!cont.FirstName}
+                <td data-label="Birth Date" scope="row" >
+                    <ui:outputDate  class="slds-truncate" aura:id="birthdate" value="{!cont.Birthdate}"></ui:outputDate>
                 </td>
-                <td>
-                        {!cont.LastName}
-                </td>-->
-
-                <td>
-                    <a onclick="{!c.handleClick}" id="{!cont.Id}">  {!cont.Birthdate} </a>
+                <td data-label="Birth Date" scope="row" >
+                    <div class="slds-truncate" >  {!cont.OccupationTitle__c} </div>
+                </td>
+                <td data-label="Birth Date" scope="row" >
+                    <div class="slds-truncate" >  {!cont.Title} </div>
+                </td>
+                <td data-label="Birth Date" scope="row" >
+                    <div class="slds-truncate" >  {!cont.Account.Name} </div>
                 </td>
             </tr>
         </aura:iteration>
+        </tbody>
     </table>
 </aura:component>

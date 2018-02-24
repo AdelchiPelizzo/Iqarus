@@ -2,25 +2,25 @@
  - Created by Adelchi on 20/12/2017.
  -->
 
-<aura:component description="ContactCreation" controller="Lookup" implements="flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
+<aura:component description="ContactCreation" controller="ContactCreationCtrl" implements="flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:attribute name="newContact" type="Object"/>
     <aura:attribute name="simpleNewContact" type="Object"/>
     <aura:attribute name="newContactError" type="String"/>
     <aura:attribute name="accounts" type="Object[]"/>
     <aura:attribute Name="selItem2" type="object"  access="public" />
     <aura:attribute name="myBool" type="Boolean" default="False"/>
-
-    <!--<ui:inputCheckbox aura:id="checkbox" label="Select?" change="{!c.onCheck}"/>-->
-
-
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="objInfo" type="Contact" default="{sobjectType : 'Contact'}" />
+    <aura:attribute name="occInfo" type="String"/>
+    <aura:attribute name="gender" type="String"/>
 
     <force:recordData aura:id="contactRecordCreator"
                       layoutType="FULL"
                       targetRecord="{!v.newContact}"
                       targetFields="{!v.simpleNewContact}"
-                      targetError="{!v.newContactError}" />
+                      targetError="{!v.newContactError}"
+    />
 
     <!--<div class="slds-page-header slds-p-top_x-small" role="banner">
         <p class="slds-text-heading_label">Create Contact</p>
@@ -88,38 +88,45 @@
         </div>
         <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3 ">
             <div class="slds-form-element">
-                <div class="slds-form-element__control">
-                    <lightning:input aura:id="contactField" name="Job Title" label="Job Title" value="{!v.simpleNewContact.Title}" placeholder="Enter Job Title"/>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="select-01">Occupational Category</label>
+                    <ui:inputSelect aura:id="occField" class="slds-select" change = "{!c.onPicklistChange}"></ui:inputSelect>
                 </div>
             </div>
         </div>
     </div>
     <div class="slds-grid slds-p-top_large">
-        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3 ">
+        <div class="slds-col--padded  slds-medium-size--4-of-12 ">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                  <lightning:select aura:id="contactField" name="gender" label="Gender" value="{!v.simpleNewContact.Gender__c}"  >
-                        <option  value="">choose one...</option>
+                    <label class="slds-form-element__label" for="gender">Gender</label>
+                    <ui:inputSelect aura:id="gender" class="slds-select" change = "{!c.onPicklistChange1}"></ui:inputSelect>
+                  <!--<lightning:select aura:id="contactField" name="gender" label="Gender" value="{!v.simpleNewContact.Gender__c}"  >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                    </lightning:select>
+                    </lightning:select>-->
                 </div>
             </div>
         </div>
-
-        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3">
+        <div class="slds-col--padded  slds-medium-size--4-of-12 ">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <ui:inputDate required="true" aura:id="contactField"  label="Date of birth" value="{!v.simpleNewContact.Birthdate}" displayDatePicker="true"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col--padded  slds-medium-size--1-of-12">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <ui:inputCheckbox aura:id="contactField" name="GDPRCompliant" label="GDPR Compliant" value="{!v.simpleNewContact.GDPRCompliant__c}" />
                 </div>
             </div>
         </div>
-
-        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3">
+        <div class="slds-col--padded  slds-medium-size--3-of-12">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                    <label>Account</label>
-                    <lightning:helptext content="Start typing Account Name and hit Spacebar" />
+                    <label>Company</label>
+                    <lightning:helptext content="Start typing Company Name and hit Spacebar" />
                     <c:Lookup objectName="Account"
                               field_API_text="Name"
                               field_API_val="Id"
@@ -127,7 +134,7 @@
                               field_API_search="Name"
                               lookupIcon="standard:account"
                               selItem="{!v.selItem2}"
-                              placeholder="Select Account"/>
+                              placeholder="Select Company"/>
                 </div>
             </div>
         </div>

@@ -1,0 +1,61 @@
+<!--
+ - Created by Adelchi on 15/02/2018.
+ -->
+<apex:page id="MedicHubItemCreationPage" standardController="Medic_Hub_Link__c" showHeader="false" sideBar="false" standardStylesheets="false">
+    <head>
+        <style>
+            .button {
+                background-color: salmon;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                font-family: Tahoma;
+            }
+            .label{
+                background-color: salmon;
+                color: white;
+                float: none;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                margin-bottom: 10px;
+                font-size: 17px;
+                font-family: Tahoma;
+                width: 97%;
+            }
+            label{
+                padding: 14px 16px;
+                margin-bottom: 10px;
+                font-size: 15px;
+                font-family: Tahoma;
+                width: 97%;
+            }
+        </style>
+    </head>
+    <apex:form style="padding:25px">
+        <div class="label">New Medic Hub Item</div>
+        <ul>
+            <li style="list-style-type: none; padding: 1em">
+                <label for="text" >Document Name</label>
+                <apex:inputField id="text" value="{!Medic_Hub_Link__c.Name}" style="width:42%"/>
+            </li>
+            <li style="list-style-type: none; padding: 1em; ">
+                <label for="urlLink">URL</label>
+                <apex:inputField id="urlLink" value="{!Medic_Hub_Link__c.URL__c}" style="width:50%"/>
+            </li>
+        </ul>
+        <div style="margin-top: 25px">
+            <apex:commandButton styleClass="button" action="{!save}" value="Save"/>
+        </div>
+
+    </apex:form>
+
+</apex:page>
+

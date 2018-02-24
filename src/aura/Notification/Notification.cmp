@@ -16,6 +16,7 @@
         <div class="slds-text-color_inverse">This Consultation Record is no longer Editable because its Status is "Closed"</div>
     </div>
     </aura:if>
+    <!--{!v.isClosed}&#45;&#45;{!v.isLocked}-->
     <aura:if isTrue="{!v.isLocked}">
         <div class="demo-only" style="padding: 0.5rem; background: rgb(22, 50, 92); text-align: center">
             <div class="slds-text-color_inverse">This Consultation Record is only Partially Editable because its Status is "Escalated"</div>

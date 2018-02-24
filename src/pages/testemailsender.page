@@ -1,0 +1,7 @@
+<!--
+ - Created by Adelchi on 16/02/2018.
+ -->
+
+<apex:page id="testemailsender" standardController="Consultation__c" renderAs="pdf" showHeader="false" sideBar="false" standardStylesheets="false" >
+    TEST PAGE
+</apex:page>

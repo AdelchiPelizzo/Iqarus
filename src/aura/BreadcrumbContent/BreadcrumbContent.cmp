@@ -1,0 +1,11 @@
+<!--
+ - Created by Adelchi on 23/01/2018.
+ -->
+
+<aura:component description="BreadcrumbContent" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:registerEvent name="cmpEvent" type="c:BreadCrumbCmpEvent"/>
+    <aura:attribute name="menu" type="String" />
+    <aura:attribute name="index" type="integer" />
+    <a href="https://uat-iqarus.cs89.force.com/MedicsOnLine/s/?tabset-7fd91=31386" onclick="{!c.setNavigation}">{!v.menu}</a>
+</aura:component>
+

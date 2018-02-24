@@ -4,6 +4,12 @@
 
 public class EscalationTopsideEmailSender {
     private final Consultation__c consultation;
+    public String MedevacAssessmentLocation {get;set;}
+    public String PointOfMobilisation {get;set;}
+    public String DisembarkationNotificationProcess {get;set;}
+    public String IqarusChaperoneServiceRequired {get;set;}
+    public String ChaperoneNotificationProcess {get;set;}
+    public String communityId;
     public String Id {get;set;}
 
     public EscalationTopsideEmailSender(ApexPages.StandardController stdController){
@@ -11,9 +17,18 @@ public class EscalationTopsideEmailSender {
     }
 
     public ApexPages.Action sendIt (){
+        communityId = [SELECT Id FROM Network WHERE Name = 'MedicsOnLine' LIMIT 1].Id;
+        system.debug(communityId);
         Id = System.currentPageReference().getParameters().get('id');
         Consultation__c c = [SELECT Id, Name, Operator__r.Name, Operator__c, Outcome__c, Medic__c, Site__c FROM Consultation__c WHERE Id =: Id];
-        List<Site__c> s = [SELECT Id, Name, SickBayPhone__c, SickBayEmail__c FROM Site__c WHERE Id =: c.Site__c];
+        List<Site__c> s = [SELECT Id, Name, Medevac_Assessment_location__c, Point_of_mobilisation__c, Disembarkation_notification_Process__c, Iqarus_chaperone_service_required__c, Chaperone_Notification_Process__c,  SickBayPhone__c, SickBayEmail__c FROM Site__c WHERE Id =: c.Site__c];
+        if(s.size()>0){
+            MedevacAssessmentLocation = s[0].Medevac_Assessment_location__c;
+            PointOfMobilisation = s[0].Point_of_mobilisation__c;
+            DisembarkationNotificationProcess = s[0].Disembarkation_notification_Process__c;
+            IqarusChaperoneServiceRequired = s[0].Iqarus_chaperone_service_required__c;
+            ChaperoneNotificationProcess = s[0].Chaperone_Notification_Process__c;
+        }
         system.debug(s[0]);
         system.debug(System.currentPageReference().getParameters().get('id'));
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
@@ -27,8 +42,8 @@ public class EscalationTopsideEmailSender {
         msg.setSaveAsActivity(False);
         String site = s[0].Name;
         msg.setSubject('Topside Escalation : '+c.Operator__r.Name+' - '+site+' - '+c.Outcome__c);
-        String urlString = URL.getSalesforceBaseUrl().toExternalForm() + '/' + c.Id;
-        system.debug(URL.getSalesforceBaseUrl().toExternalForm());
+        String urlString = URL.getSalesforceBaseUrl().toExternalForm()+'/MedicsOnLine/s/consultation/'+c.Id+'/cl0000014';
+        system.debug(urlString);
         String linkToRecord = '<a href="'+urlString+'">'+c.Name+'</a>';
         system.debug(linkToRecord);
         String Phone = s[0].SickBayPhone__c;

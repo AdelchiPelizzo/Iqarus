@@ -1,0 +1,21 @@
+<!--
+ - Created by Adelchi on 23/01/2018.
+ -->
+
+<aura:component description="BreadcrumbComponent" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="FixedBreadcrumbs" type="String[]" default="Home,Consultations,Patients"/>
+    <aura:attribute name="Breadcrumbs" type="String[]" default="Home"/>
+    <aura:attribute name="itemName" type="String" default="Home"/>
+    <div class="breadcrumb">
+        <aura:iteration items="{!v.Breadcrumbs}" var="menu" indexVar="i">
+            <c:BreadcrumbContent index="{!i}" menu="{!menu}" cmpEvent="{!c.setNavigationEvent}"/>
+        </aura:iteration>
+    </div>
+    <div class="container">
+        <div>
+            This is <b>{!v.itemName}</b>  page</div>
+        <aura:if isTrue="{!v.FixedBreadcrumbs.length > v.Breadcrumbs.length}">
+            <ui:Button label="Next" press="{!c.next}" />
+        </aura:if>
+    </div>
+</aura:component>

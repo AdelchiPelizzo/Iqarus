@@ -1,13 +1,31 @@
 /**
- * Created by Adelchi on 20/12/2017.
+ * Created by Adelchi on 16/02/2018.
  */
 
 public with sharing class ContactCreationCtrl {
     @AuraEnabled
-    public static Contact saveContact(boolean bool) {
-        Contact cnt = new Contact();
-        cnt.GDPRCompliant__c = bool;
-        insert cnt;
-        return cnt;
+    public static List < String > getselectOptions(sObject objObject, string fld) {
+        system.debug('objObject --->' + objObject);
+        system.debug('fld --->' + fld);
+        List < String > allOpts = new list < String > ();
+        // Get the object type of the SObject.
+        Schema.sObjectType objType = objObject.getSObjectType();
+
+        // Describe the SObject using its object type.
+        Schema.DescribeSObjectResult objDescribe = objType.getDescribe();
+
+        // Get a map of fields for the SObject
+        map < String, Schema.SObjectField > fieldMap = objDescribe.fields.getMap();
+
+        // Get the list of picklist values for this field.
+        list < Schema.PicklistEntry > values = fieldMap.get(fld).getDescribe().getPickListValues();
+
+        // Add these values to the selectoption list.
+        for (Schema.PicklistEntry a: values) {
+            allOpts.add(a.getValue());
+        }
+        system.debug('allOpts ---->' + allOpts);
+        allOpts.sort();
+        return allOpts;
     }
 }

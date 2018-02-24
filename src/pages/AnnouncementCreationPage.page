@@ -1,0 +1,46 @@
+<!--
+ - Created by Adelchi on 07/02/2018.
+ -->
+
+<apex:page id="AnnouncementCreationPage" standardController="Community_Announcement__c" showHeader="false" sideBar="false" standardStylesheets="false">
+    <head>
+        <style>
+            .button {
+                background-color: salmon;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                font-family: Tahoma;
+            }
+            .label{
+                background-color: salmon;
+                color: white;
+                float: none;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                margin-bottom: 10px;
+                font-size: 17px;
+                font-family: Tahoma;
+                width: 97%;
+            }
+
+        </style>
+    </head>
+    <apex:form style="padding:25px">
+        <div class="label">New Announcement for Medics On Line</div>
+        <apex:inputField id="text" value="{!Community_Announcement__c.Text_body__c}" />
+        <div style="margin-top: 25px">
+            <apex:commandButton styleClass="button" action="{!save}" value="Save"/>
+        </div>
+
+    </apex:form>
+
+</apex:page>

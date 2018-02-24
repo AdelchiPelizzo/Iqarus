@@ -1,0 +1,18 @@
+<!--
+ - Created by Adelchi on 01/02/2018.
+ -->
+
+<aura:component description="LogoutFromCommunity" controller="communityLogout" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <style>
+        .logOutBtn{
+            background-color: coral;
+            color: white !important;
+            font-weight: bold;
+        }
+    </style>
+    <aura:attribute name="url" type="String" />
+    <img src="{!$Resource.IqarusLogo}" width="275" height="150" />
+    <div style="float:right">
+            <lightning:button  class="logOutBtn" label="Logout" onclick="{! c.logout }" />
+    </div>
+</aura:component>

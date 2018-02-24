@@ -1,0 +1,7 @@
+<!--
+ - Created by Adelchi on 07/02/2018.
+ -->
+
+<aura:component description="AnnouncementDisplay" controller="Announcements" implements="forceCommunity:availableForAllPageTypes, flexipage:availableForAllPageTypes" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+</aura:component>

@@ -17,7 +17,7 @@ public with sharing class NotificationCtrl {
     public static Boolean IsLocked(Id recordId){
         List<Consultation__c> consultation  = [SELECT Status__c  FROM Consultation__c WHERE Id =:recordId];
         String status = consultation[0].Status__c;
-        if(status == 'Submitted for Topside supervision Locked'){
+        if(status == 'Submitted for Topside supervision Locked'|| status == 'Topside Reviewed Locked'){
             return True;
         }else{
             return False;

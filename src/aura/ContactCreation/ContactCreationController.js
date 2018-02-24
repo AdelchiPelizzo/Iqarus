@@ -3,7 +3,11 @@
  */
 ({
     doInit: function(component, event, helper) {
+        helper.fetchPickListVal(component, 'OccupationCategory__c', 'occField');
+        helper.fetchPickListVal(component, 'Gender__c', 'gender');
+
         // Prepare a new record from template
+
         component.find("contactRecordCreator").getNewRecord(
             "Contact", // sObject type (objectApiName)
             //"0120E0000005EJ0QAM", // recordTypeId
@@ -20,6 +24,14 @@
             })
         );
     },
+
+    onPicklistChange: function(component, event, helper) {
+        // get the value of select option
+        component.set("v.occInfo", event.getSource().get("v.value"));
+    },
+
+    onPicklistChange1: function(component, event, helper) {
+    component.set("v.gender", event.getSource().get("v.value"));},
 
     handleSaveContact: function(component, event, helper) {
         var check = confirm("Electronic Medical Record Information Sheet\n" +
@@ -38,6 +50,8 @@
         if(check) {
             component.set("v.myBool", "False");
             component.set("v.simpleNewContact.AccountId", component.get("v.selItem2.val"));
+            component.set("v.simpleNewContact.OccupationCategory__c", component.get("v.occInfo"));
+            component.set("v.simpleNewContact.Gender__c", component.get("v.gender"));
             component.find("contactRecordCreator").saveRecord(function(saveResult) {
                 var newId = saveResult.recordId;
                 console.log('save result state>>'+JSON.stringify(saveResult.error));
@@ -65,7 +79,7 @@
                     var resultsToast = $A.get("e.force:showToast");
                     resultsToast.setParams({
                         "title": "Saving Error",
-                        "message": 'Contact cannot be created if it is Not GDPR Compliant'
+                        "message": JSON.stringify(saveResult.error)
                     });
                     resultsToast.fire();
                 } else {

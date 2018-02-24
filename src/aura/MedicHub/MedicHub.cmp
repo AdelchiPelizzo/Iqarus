@@ -1,0 +1,19 @@
+<!--
+ - Created by Adelchi on 15/02/2018.
+ -->
+
+<aura:component controller="MedicHubLinkCtrl" implements="flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="Links" type="Medic_Hub_Link__c[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="slds-m-top--xx-large">
+        <ul class="slds-has-dividers_around slds-has-block-links_space">
+            <aura:iteration var="urlLink" items="{!v.Links}">
+                <li class="slds-item" style="background-color: #F5AC63; color: black" >
+                    <div class="slds-align_absolute-center slds-text-heading_medium">
+                        <a href="{!urlLink.URL__c}">{!urlLink.Name}</a>
+                    </div>
+                </li >
+            </aura:iteration>
+        </ul>
+    </div>
+</aura:component>

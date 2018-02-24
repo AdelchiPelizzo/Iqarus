@@ -1,0 +1,14 @@
+<!--
+ - Created by Adelchi on 24/01/2018.
+ -->
+
+<aura:component description="pathCommunity" implements="forceCommunity:availableForAllPageTypes, flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" >
+    <aura:attribute name="variant" type="String" default="linear"/>
+    <aura:attribute name="hideUpdateButton" type="Boolean" default="true"/>
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <lightning:path aura:id="path" recordId="{!v.recordId}"
+                    variant="{!v.variant}"
+                    hideUpdateButton="{!v.hideUpdateButton}"
+                    onselect="{!c.handleSelect}"
+    />
+</aura:component>
