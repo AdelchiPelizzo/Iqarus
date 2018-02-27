@@ -3,7 +3,8 @@
  -->
 
 <aura:component description="ContactCreation" controller="ContactCreationCtrl" implements="flexipage:availableForRecordHome, force:hasRecordId, flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes" access="global" >
-
+    <aura:registerEvent name="FireWhenValuesAreSelected" type="c:FireWhenOccupationalValuesAreSelected"/>
+    <aura:handler name="FireWhenValuesAreSelected" event="c:FireWhenOccupationalValuesAreSelected" action="{!c.handleEvent}" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:attribute name="newContact" type="Object"/>
     <aura:attribute name="simpleNewContact" type="Object"/>
@@ -12,20 +13,15 @@
     <aura:attribute Name="selItem2" type="object"  access="public" />
     <aura:attribute name="myBool" type="Boolean" default="False"/>
     <aura:attribute name="objInfo" type="Contact" default="{sobjectType : 'Contact'}" />
-    <aura:attribute name="occInfo" type="String"/>
+    <aura:attribute name="occInfo" type="String" />
+    <aura:attribute name="occTitle" type="String" />
     <aura:attribute name="gender" type="String"/>
-
     <force:recordData aura:id="contactRecordCreator"
                       layoutType="FULL"
                       targetRecord="{!v.newContact}"
                       targetFields="{!v.simpleNewContact}"
                       targetError="{!v.newContactError}"
     />
-
-    <!--<div class="slds-page-header slds-p-top_x-small" role="banner">
-        <p class="slds-text-heading_label">Create Contact</p>
-    </div>-->
-    <!-- Display Lightning Data Service errors -->
     <aura:if isTrue="{!not(empty(v.newContactError))}">
         <div class="recordError">
             <ui:message title="Error" severity="error" closable="true">
@@ -86,32 +82,24 @@
                 </div>
             </div>
         </div>
-        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3 ">
-            <div class="slds-form-element">
-                <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">Occupational Category</label>
-                    <ui:inputSelect aura:id="occField" class="slds-select" change = "{!c.onPicklistChange}"></ui:inputSelect>
-                </div>
-            </div>
-        </div>
     </div>
+    <div class="slds-form-element__control slds-medium-size--1-of-3">
+            <c:DependentPicklist FireWhenOccupationalValuesAreSelected="{!c.handleEvent}"/>
+        </div>
     <div class="slds-grid slds-p-top_large">
         <div class="slds-col--padded  slds-medium-size--4-of-12 ">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <label class="slds-form-element__label" for="gender">Gender</label>
                     <ui:inputSelect aura:id="gender" class="slds-select" change = "{!c.onPicklistChange1}"></ui:inputSelect>
-                  <!--<lightning:select aura:id="contactField" name="gender" label="Gender" value="{!v.simpleNewContact.Gender__c}"  >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </lightning:select>-->
                 </div>
             </div>
         </div>
-        <div class="slds-col--padded  slds-medium-size--4-of-12 ">
+        <div class="slds-medium-size--4-of-12 ">
             <div class="slds-form-element">
-                <div class="slds-form-element__control">
-                    <ui:inputDate required="true" aura:id="contactField"  label="Date of birth" value="{!v.simpleNewContact.Birthdate}" displayDatePicker="true"/>
+                <div class="slds-form-element__control" title="Do not Enter date Manually - Please Use DatePicker box">
+                    <ui:inputDate required="true" aura:id="contactField"  label="Date of birth" value="{!v.simpleNewContact.Birthdate}" displayDatePicker="true" />
+                    <lightning:helptext content="Do not Enter date Manually - Please Use DatePicker box" />
                 </div>
             </div>
         </div>
@@ -139,63 +127,5 @@
             </div>
         </div>
     </div>
-
-
-<!--    <table class="slds-form_inline " >
-        <tr class="slds-size_12-of-12">
-            <td class="slds-size_2-of-12 slds-p-top_large">
-                <lightning:input aura:id="contactField" name="title" label="Title" value="{!v.simpleNewContact.Title}" placeholder="Enter Title"/>
-            </td>
-            <td class="slds-size_3-of-12">
-                <lightning:input aura:id="contactField" name="firstName" label="First Name" value="{!v.simpleNewContact.FirstName}" required="true"/>
-            </td>
-            <td class="slds-size_3-of-12">
-                <lightning:input aura:id="contactField" name="lastName" label="Last Name" value="{!v.simpleNewContact.LastName}" required="true"/>
-            </td >
-            <td class="slds-size_4-of-12"></td>
-        </tr >
-        <tr class="slds-size_12-of-12">
-            <td class="slds-size_2-of-12">
-                <lightning:input aura:id="contactField" name="gender" label="Gender" value="{!v.simpleNewContact.Gender__c}" />
-            </td>&lt;!&ndash;
-            <td class="slds-size_1-of-12">
-                <ui:inputCheckbox aura:id="contactField" name="GDPR" label="GDPR" value="{!v.simpleNewContact.GDPR__c}" />
-            </td>&ndash;&gt;
-            <td class="slds-size_1-of-12">
-                <ui:inputCheckbox aura:id="contactField" name="GDPRCompliant" label="GDPR Compliant" value="{!v.simpleNewContact.GDPRCompliant__c}" />
-            </td>
-            <td class=" slds-size_2-of-12">
-                <td>Account
-                    <lightning:helptext content="Start typing Account Name and hit Spacebar" />
-                        <c:Lookup objectName="Account"
-                                  field_API_text="Name"
-                                  field_API_val="Id"
-                                  limit="4"
-                                  field_API_search="Name"
-                                  lookupIcon="standard:account"
-                                  selItem="{!v.selItem2}"
-                                  placeholder="Select Account"/>
-                </td>
-            </td>
-        </tr>-->
-        <!--<lightning:input aura:id="contactField" name="title" label="Account" value="{!v.simpleNewContact.AccountId}"/>-->
-
-      <!--  <div class="slds-grid slds-wrap">
-            <div class="slds-size_1-of-1
-                        slds-small-size_1-of-1
-                        slds-medium-size_1-of-2
-                        slds-large-size_1-of-4 ">
-                <aura:if isTrue="{! not(empty(v.selItem2)) }">
-                    <br />
-                    This is Parent Lightning component <br />
-                    Item Selected : <br />
-                    ID - {#v.selItem2.val} <br />
-                    Text - {#v.selItem2.text}<br />
-                    Object - {#v.selItem2.objName}
-                </aura:if>
-            </div>
-        </div>-->
-   <!-- </table>-->
     <lightning:button label="Save contact" onclick="{!c.handleSaveContact}" variant="brand" class="slds-m-top_medium"/>
-
 </aura:component>

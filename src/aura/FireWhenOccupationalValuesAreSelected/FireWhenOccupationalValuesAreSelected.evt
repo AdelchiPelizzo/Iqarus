@@ -1,0 +1,9 @@
+<!--
+ - Created by Adelchi on 26/02/2018.
+ -->
+
+<aura:event type="COMPONENT" description="FireWhenOccupationalValuesAreSelected">
+
+    <aura:attribute name = "Category" type="String" />
+    <aura:attribute name="Title" type="String"/>
+</aura:event>

@@ -33,8 +33,8 @@
             <div class="slds-size_1-of-7">
             </div>
             <div class="slds-size_2-of-7">
-                <lightning:helptext content="Start typing to Filter Contacts by Last Name" />
-                <ui:inputText placeholder="Search Name" value="{!v.contactName}" label="Surname" aura:id="contact" keyup="{!c.doInit}"/>
+                <lightning:helptext content="Start typing to Filter Contacts by Name" />
+                <ui:inputText placeholder="Search Name" value="{!v.contactName}" label="Name" aura:id="contact" keyup="{!c.doInit}"/>
             </div>
             <div class="slds-size_1-of-7">
             </div>

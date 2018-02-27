@@ -1,0 +1,32 @@
+<!--
+ - Created by Adelchi on 26/02/2018.
+ -->
+<aura:component controller="PicklistFieldController">
+    <!--init function which is call on component load -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="FireWhenOccupationalValuesAreSelected" type="c:FireWhenOccupationalValuesAreSelected"/>
+
+    <!--Using Attributes-->
+    <aura:attribute name="objInfo" type="string" default="Contact" description="store object Info." />
+    <aura:attribute name="depnedentFieldMap" type="map" description="store controller(key)--> dependent(values) picklist value as a map." />
+    <aura:attribute name="isDependentDisable" type="boolean" default="true" description="use for, make disable dependent field." />
+
+    <div style="padding:25px;">
+        <!--Controller Field-->
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="select-01">Select Occupational Category</label>
+            <div class="slds-select_container">
+                <ui:inputSelect aura:id="conCountry" class="slds-select" change="{!c.onControllerFieldChange}" />
+            </div>
+        </div>
+
+        <!--Dependent Field-->
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="select-01">Select Occupational Title</label>
+            <div class="slds-select_container">
+                <ui:inputSelect aura:id="conState" disabled="{!v.isDependentDisable}" class="slds-select" change="{!c.onDependentFieldChange}" />
+            </div>
+        </div>
+    </div>
+</aura:component>
+

@@ -3,7 +3,6 @@
  */
 ({
     doInit: function(component, event, helper) {
-        helper.fetchPickListVal(component, 'OccupationCategory__c', 'occField');
         helper.fetchPickListVal(component, 'Gender__c', 'gender');
 
         // Prepare a new record from template
@@ -25,15 +24,28 @@
         );
     },
 
+    handleEvent : function(component, event, helper){
+        console.log(' handleEvent>>> ');
+        var categ = event.getParam("Category");
+        var titl = event.getParam("Title");
+        console.log('categ >> '+categ);
+        component.set("v.occInfo", categ);
+        component.set("v.occTitle", titl);
+    },
+
     onPicklistChange: function(component, event, helper) {
         // get the value of select option
         component.set("v.occInfo", event.getSource().get("v.value"));
     },
 
     onPicklistChange1: function(component, event, helper) {
-    component.set("v.gender", event.getSource().get("v.value"));},
+        component.set("v.gender", event.getSource().get("v.value"));},
+
+    onPicklistChange2: function(component, event, helper) {
+        component.set("v.occTitle", event.getSource().get("v.value"));},
 
     handleSaveContact: function(component, event, helper) {
+
         var check = confirm("Electronic Medical Record Information Sheet\n" +
             "Iqarus is introducing an electronic medical records system to improve documentation, access, efficiency and\n" +
             "coordination of your medical care.\n" +
@@ -51,6 +63,11 @@
             component.set("v.myBool", "False");
             component.set("v.simpleNewContact.AccountId", component.get("v.selItem2.val"));
             component.set("v.simpleNewContact.OccupationCategory__c", component.get("v.occInfo"));
+            var a = component.get("v.occInfo");
+            console.log('1>>>'+ a);
+            component.set("v.simpleNewContact.OccupationTitle__c", component.get("v.occTitle"));
+            var b = component.get("v.occTitle")
+            console.log('2>>>'+b);
             component.set("v.simpleNewContact.Gender__c", component.get("v.gender"));
             component.find("contactRecordCreator").saveRecord(function(saveResult) {
                 var newId = saveResult.recordId;
@@ -61,7 +78,7 @@
 
                     resultsToast.setParams({
                         "title": "Saved",
-                        "message": "The record was saved."
+                        "message": "Hippie - The record was saved."
                     });
                     resultsToast.fire();
                     var urlEvent = $A.get("e.force:navigateToSObject");
@@ -79,7 +96,7 @@
                     var resultsToast = $A.get("e.force:showToast");
                     resultsToast.setParams({
                         "title": "Saving Error",
-                        "message": JSON.stringify(saveResult.error)
+                        "message": "Date Format entered is Incorrect OR First Name is Missing"
                     });
                     resultsToast.fire();
                 } else {
